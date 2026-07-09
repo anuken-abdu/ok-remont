@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Процесс работы над ремонтом — OKREMONT, Астана</title>
 <meta name="description" content="Как проходит ремонт двухкомнатной квартиры в OKREMONT: договор, фиксированная цена, персональный руководитель, контроль по ГОСТ, уборка.">
-<meta name="keywords" content="ремонт двухкомнатной квартиры Астана, ремонт 2-комнатной квартиры под ключ, ремонт квартир Астана, капитальный ремонт двушки, ремонт квартиры под ключ, дизайн-проект квартиры, отделка квартир Астана, ремонт новостройки, OKREMONT">
+<meta name="keywords" content="ремонт двухкомнатной квартиры Астана, ремонт 2-комнатной квартиры под ключ, цена ремонта двушки Астана, ремонт квартир Астана, капитальный ремонт двушки, дизайн-проект квартиры, отделка квартир Астана, OKREMONT">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Процесс работы над ремонтом — OKREMONT, Астана">
 <meta property="og:description" content="Как проходит ремонт двухкомнатной квартиры в OKREMONT: договор, фиксированная цена, персональный руководитель, контроль по ГОСТ, уборка.">
@@ -37,6 +37,8 @@ tailwind.config={theme:{extend:{
   .btn-o:hover{border-color:#7B6651;color:#7B6651}
   .btn-l{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:#F5F0EC;color:#2B2420;font-weight:700;border-radius:12px;padding:15px 26px;transition:background .2s}
   .btn-l:hover{background:#fff}
+  .btn-d{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:#2B2420;color:#fff;font-weight:700;border-radius:12px;padding:15px 26px;transition:background .2s}
+  .btn-d:hover{background:#000}
   .nav-a{font-weight:600;font-size:14px;color:#2B2420;transition:color .2s}
   .nav-a:hover{color:#7B6651} .nav-a.active{color:#7B6651}
   .card{background:#fff;border:1px solid #EFE9E1;border-radius:18px;box-shadow:0 6px 20px rgba(75,60,50,.06);transition:transform .2s,box-shadow .2s}
@@ -50,6 +52,12 @@ tailwind.config={theme:{extend:{
   .fab{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.18);transition:transform .2s,opacity .25s}
   .hscroll{scrollbar-width:thin;scrollbar-color:#fff5 transparent}
   .hscroll::-webkit-scrollbar{height:6px} .hscroll::-webkit-scrollbar-thumb{background:#ffffff88;border-radius:99px}
+  .feat{position:relative;padding-left:22px} .feat::before{content:"—";position:absolute;left:0;color:#A2917F}
+  /* range slider */
+  input[type=range]{-webkit-appearance:none;appearance:none;height:6px;border-radius:99px;background:#EAE2D8;outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;background:#7B6651;cursor:pointer;box-shadow:0 2px 8px rgba(75,60,50,.35);border:3px solid #fff}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#7B6651;cursor:pointer;border:3px solid #fff}
+  .pkgbtn.on{background:#2B2420;color:#fff;border-color:#2B2420}
 </style>
 </head>
 <body class="antialiased">
@@ -58,7 +66,7 @@ tailwind.config={theme:{extend:{
     <a href="index.html" class="flex items-baseline gap-0.5 shrink-0 select-none" aria-label="OKREMONT">
   <span class="text-2xl md:text-[26px] font-extrabold tracking-tight text-accent leading-none">OK</span><span class="text-2xl md:text-[26px] font-extrabold tracking-tight text-ink leading-none">REMONT</span>
 </a>
-    <nav class="hidden lg:flex items-center gap-6"><a href="index.html" class="nav-a whitespace-nowrap">Главная</a><a href="uslugi.html" class="nav-a whitespace-nowrap">Услуги</a><a href="portfolio.html" class="nav-a whitespace-nowrap">Проекты</a><a href="process.html" class="nav-a active whitespace-nowrap">Процесс</a><a href="o-nas.html" class="nav-a whitespace-nowrap">О нас</a><a href="kontakty.html" class="nav-a whitespace-nowrap">Контакты</a></nav>
+    <nav class="hidden lg:flex items-center gap-5"><a href="index.html" class="nav-a whitespace-nowrap">Главная</a><a href="uslugi.html" class="nav-a whitespace-nowrap">Услуги</a><a href="prices.html" class="nav-a whitespace-nowrap">Цены</a><a href="portfolio.html" class="nav-a whitespace-nowrap">Проекты</a><a href="process.html" class="nav-a active whitespace-nowrap">Процесс</a><a href="o-nas.html" class="nav-a whitespace-nowrap">О нас</a><a href="kontakty.html" class="nav-a whitespace-nowrap">Контакты</a></nav>
     <div class="hidden lg:flex items-center gap-4 pl-5 border-l border-line">
       <div class="text-right leading-tight">
         <a href="tel:+77778988559" class="block font-extrabold text-ink text-[15px]">8 (777) 898-85-59</a>
@@ -79,7 +87,7 @@ tailwind.config={theme:{extend:{
 </a>
     <button id="close" aria-label="Закрыть" class="p-2 -mr-2"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2B2420" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
-  <nav class="px-5 pb-6"><a href="index.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">Главная</a><a href="uslugi.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">Услуги</a><a href="portfolio.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">Проекты</a><a href="process.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">Процесс</a><a href="o-nas.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">О нас</a><a href="kontakty.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">Контакты</a>
+  <nav class="px-5 pb-6"><a href="index.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">Главная</a><a href="uslugi.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">Услуги</a><a href="prices.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">Цены</a><a href="portfolio.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">Проекты</a><a href="process.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">Процесс</a><a href="o-nas.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">О нас</a><a href="kontakty.html" class="mnav block py-3 border-b border-line text-base font-semibold text-ink">Контакты</a>
     <div class="mt-5 space-y-3">
       <a href="tel:+77778988559" class="block text-lg font-extrabold text-ink">8 (777) 898-85-59</a>
       <span class="block text-body text-sm">Без выходных: 9:00–19:00</span>
@@ -89,7 +97,7 @@ tailwind.config={theme:{extend:{
 </aside><section class="bg-soft"><div class="wrap pt-10 md:pt-14 pb-10 md:pb-14">
       <h1 class="text-ink font-extrabold text-3xl md:text-5xl leading-tight max-w-3xl">Процесс работы <span class="text-taupe">над ремонтом вашей двушки</span></h1>
       <p class="text-body text-base md:text-lg leading-relaxed mt-4 max-w-2xl">Прозрачный процесс от заявки до сдачи: договор с фиксированной ценой, персональный руководитель и контроль на каждом этапе.</p>
-      <div class="mt-6"><a href="index.html#quiz" class="btn up text-sm">Рассчитать стоимость</a></div>
+      <div class="mt-6"><a href="#calc" class="btn up text-sm">Рассчитать стоимость</a></div>
     </div></section>
 <section id="process" class="bg-soft">
   <div class="wrap py-16 md:py-20">
@@ -163,15 +171,9 @@ tailwind.config={theme:{extend:{
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
       <div>
         <p class="up text-taupe text-xs font-bold mb-4">Заполните небольшую анкету</p>
-        <h2 class="text-ink font-extrabold text-2xl md:text-4xl leading-tight mb-6">Получите подробную смету по ремонту двушки, <span class="text-taupe">ответив на 5 вопросов</span></h2>
-        <div class="flex items-center gap-4 mb-8">
-          <div class="ph rounded-full w-16 h-16 shrink-0" style="border-radius:9999px"><span class="lbl" style="font-size:9px">founder-oraz.webp</span></div>
-          <div>
-            <p class="text-body text-sm leading-relaxed mb-1">Оперативно подготовим подробную смету ремонта, и вы поймёте, какой бюджет нужен для вашей квартиры.</p>
-            <div class="font-bold text-ink text-sm">Ораз Исин</div>
-            <div class="text-taupe text-xs">Основатель компании OKREMONT</div>
-          </div>
-        </div>
+        <h2 class="text-ink font-extrabold text-2xl md:text-4xl leading-tight mb-4">Получите подробную смету по ремонту двушки, <span class="text-taupe">ответив на 5 вопросов</span></h2>
+        <p class="text-body text-sm leading-relaxed mb-2 max-w-lg">Оперативно подготовим подробную смету ремонта, и вы поймёте, какой бюджет нужен для вашей квартиры.</p>
+        <div class="mb-8"><span class="font-bold text-ink text-sm">Ораз Исин</span> <span class="text-taupe text-xs">— основатель компании OKREMONT</span></div>
         <div class="bg-ink text-white rounded-2xl p-6">
           <p class="up text-white/60 text-xs font-bold mb-4">Ответив на вопросы, вы получите:</p>
           <div class="flex items-center gap-3 mb-3"><span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-white shrink-0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg></span><span class="text-sm text-white/90">Подробную смету индивидуально под ваш запрос</span></div>
@@ -209,7 +211,7 @@ tailwind.config={theme:{extend:{
       ["Лофт","images/quiz-style-loft.webp"],["Минимализм","images/quiz-style-minimal.webp"],
       ["Современный","images/quiz-style-modern.webp"],["Классика","images/quiz-style-classic.webp"]]},
     {t:"Какой ремонт нужен?", o:[["Капитальный под ключ"],["Под ключ с дизайн-проектом"],["Ремонт в новостройке"],["Нужна консультация"]]},
-    {t:"Площадь двухкомнатной квартиры?", o:[["до 50 м²"],["50–60 м²"],["60–70 м²"],["больше 70 м²"]]},
+    {t:"Площадь двухкомнатной квартиры?", o:[["45–60 м²"],["60–75 м²"],["75–100 м²"],["100–125 м²"]]},
     {t:"В каком состоянии квартира?", o:[["Новостройка без отделки"],["Вторичка под ремонт"],["Нужен совет"]]},
     {t:"Когда планируете начать?", o:[["Срочно"],["В течение месяца"],["Через 1–3 месяца"],["Просто узнаю цену"]]}
   ];
@@ -276,7 +278,7 @@ tailwind.config={theme:{extend:{
     </div>
     <div>
       <div class="font-bold mb-4 text-sm up">Разделы</div>
-      <ul class="space-y-2.5"><li><a href="index.html" class="text-white/60 hover:text-white transition text-sm">Главная</a></li><li><a href="uslugi.html" class="text-white/60 hover:text-white transition text-sm">Услуги</a></li><li><a href="portfolio.html" class="text-white/60 hover:text-white transition text-sm">Проекты</a></li><li><a href="process.html" class="text-white/60 hover:text-white transition text-sm">Процесс</a></li><li><a href="o-nas.html" class="text-white/60 hover:text-white transition text-sm">О нас</a></li><li><a href="kontakty.html" class="text-white/60 hover:text-white transition text-sm">Контакты</a></li></ul>
+      <ul class="space-y-2.5"><li><a href="index.html" class="text-white/60 hover:text-white transition text-sm">Главная</a></li><li><a href="uslugi.html" class="text-white/60 hover:text-white transition text-sm">Услуги</a></li><li><a href="prices.html" class="text-white/60 hover:text-white transition text-sm">Цены</a></li><li><a href="portfolio.html" class="text-white/60 hover:text-white transition text-sm">Проекты</a></li><li><a href="process.html" class="text-white/60 hover:text-white transition text-sm">Процесс</a></li><li><a href="o-nas.html" class="text-white/60 hover:text-white transition text-sm">О нас</a></li><li><a href="kontakty.html" class="text-white/60 hover:text-white transition text-sm">Контакты</a></li></ul>
     </div>
     <div>
       <div class="font-bold mb-4 text-sm up">Контакты</div>
