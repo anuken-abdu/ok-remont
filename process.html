@@ -133,46 +133,63 @@
       <div id="qbox"><h3 id="qtitle" class="font-extrabold text-ink text-lg md:text-xl mb-5"></h3><div id="qopts"></div></div>
       <div id="qcontact" class="hidden"><h3 class="font-extrabold text-ink text-lg md:text-xl mb-2">Куда отправить смету?</h3>
         <p class="text-body text-sm mb-5">Оставьте контакты — пришлём расчёт и консультацию руководителя проекта в WhatsApp.</p>
-        <div class="space-y-3 mb-2"><input id="qname" type="text" placeholder="Ваше имя" class="w-full px-4 py-3 bg-white border border-line text-ink outline-none"><input id="qphone" type="tel" placeholder="Телефон" class="w-full px-4 py-3 bg-white border border-line text-ink outline-none"></div></div>
+        <div class="space-y-3 mb-2"><input id="qname" type="text" placeholder="Ваше имя" class="w-full px-4 py-3 bg-white border border-line text-ink outline-none"><input id="qphone" type="tel" placeholder="Телефон" class="w-full px-4 py-3 bg-white border border-line text-ink outline-none"></div>
+        <p class="text-body text-xs mt-3">Пришлём расчёт без спама и обязательств.</p></div>
       <div class="flex items-center justify-between mt-7"><button id="qback" class="up text-xs font-bold px-5 py-3 rounded-xl bg-white border border-line text-body hover:text-ink transition">← Назад</button><button id="qnext" class="btn up text-xs">Следующий вопрос →</button></div>
     </div></div></div></section>
 <script>
 (function(){
   var Q=[
-    {t:"Какой стиль ремонта вам ближе?",photo:true,o:[["Неоклассика","images/quiz-style-neoclassic.webp"],["Скандинавия","images/quiz-style-scandi.webp"],["Лофт","images/quiz-style-loft.webp"],["Минимализм","images/quiz-style-minimal.webp"],["Современный","images/quiz-style-modern.webp"],["Классика","images/quiz-style-classic.webp"]]},
-    {t:"Какой ремонт нужен?",o:[["Капитальный под ключ"],["Под ключ с дизайн-проектом"],["Ремонт в новостройке"],["Нужна консультация"]]},
-    {t:"Площадь двухкомнатной квартиры?",o:[["47–55 м²"],["55–63 м²"],["63–72 м²"],["больше 72 м²"]]},
-    {t:"Квартира новостройка или вторичка?",o:[["Новостройка от застройщика"],["Вторичка под ремонт"],["Нужен совет"]]},
-    {t:"Нужна корпусная мебель (кухня, шкафы)?",o:[["Да, нужна"],["Нет, только ремонт"],["Пока не решил(а)"]]}
+    {t:"Какая площадь квартиры?",o:[["До 55 м²"],["56–65 м²"],["66–74 м²"],["75+ м²"]]},
+    {t:"В каком состоянии квартира?",o:[["Черновая"],["Предчистовая"],["Не знаю"]]},
+    {t:"Квартира уже готова к ремонту?",o:[["Ключи уже на руках"],["Получу ключи в течение месяца"],["Дом будет сдан позже"]]},
+    {t:"Что для вас наиболее важно?",o:[["Скорость ремонта"],["Качество"],["Гарантия результата"]]},
+    {t:"Какой уровень ремонта рассматриваете?",o:[["Базовый"],["Комфорт"],["Бизнес"],["Нужна консультация"]]}
   ];
+  var MAP={"До 55 м²":"до 55 м²","56–65 м²":"56–65 м²","66–74 м²":"66–74 м²","75+ м²":"75+ м²",
+    "Черновая":"черновая","Предчистовая":"предчистовая","Не знаю":"не знает, нужна подсказка \u26a0\ufe0f",
+    "Ключи уже на руках":"ключи на руках \ud83d\udd25","Получу ключи в течение месяца":"ключи в течение месяца","Дом будет сдан позже":"сдача позже",
+    "Скорость ремонта":"важен СРОК","Качество":"важно КАЧЕСТВО","Гарантия результата":"важны ГАРАНТИИ (доведёте до конца)",
+    "Базовый":"Базовый","Комфорт":"Комфорт","Бизнес":"Бизнес","Нужна консультация":"не выбрал \u2014 нужна консультация \ud83d\udcde"};
+  function track(ev){try{if(typeof gtag==='function')gtag('event',ev);}catch(e){}}
   var step=0,ans=[];
   var box=document.getElementById('qbox'),ct=document.getElementById('qcontact'),ti=document.getElementById('qtitle'),op=document.getElementById('qopts'),bar=document.getElementById('qbar'),bk=document.getElementById('qback'),nx=document.getElementById('qnext');
   function render(){
     var total=Q.length+1; bar.style.width=((step+1)/total*100)+'%';
     if(step<Q.length){
-      box.classList.remove('hidden');ct.classList.add('hidden');ti.textContent=Q[step].t;
-      op.className=Q[step].photo?'grid grid-cols-2 sm:grid-cols-3 gap-3':'grid grid-cols-1 sm:grid-cols-2 gap-3';op.innerHTML='';
+      box.classList.remove('hidden');ct.classList.add('hidden');
+      ti.textContent='Шаг '+(step+1)+' из '+Q.length+'. '+Q[step].t;
+      op.className='grid grid-cols-1 sm:grid-cols-2 gap-3';op.innerHTML='';
       Q[step].o.forEach(function(o){
         var sel=ans[step]===o[0];var b=document.createElement('button');b.type='button';
-        if(Q[step].photo){
-          b.className='group relative overflow-hidden rounded-xl border '+(sel?'border-accent ring-2 ring-accent':'border-line')+' bg-white text-left';
-          b.innerHTML='<div class="ph" style="aspect-ratio:4/3"><span class="lbl" style="font-size:9px">'+o[1].split('/').pop()+'</span><img src="'+o[1]+'" alt="'+o[0]+'" onerror="this.remove()"></div><div class="absolute z-10 left-0 right-0 bottom-0 p-2 bg-gradient-to-t from-black/70 to-transparent flex items-center justify-between"><span class="text-white text-sm font-semibold">'+o[0]+'</span>'+(sel?'<span class="w-5 h-5 rounded-full bg-accent flex items-center justify-center text-white text-xs">✓</span>':'')+'</div>';
-        }else{
-          b.className='flex items-center gap-3 text-left p-4 rounded-xl border '+(sel?'border-accent bg-white':'border-line bg-white')+' hover:border-accent transition';
-          b.innerHTML='<span class="shrink-0 w-5 h-5 rounded-full border-2 '+(sel?'border-accent':'border-line')+' flex items-center justify-center">'+(sel?'<span class="w-2.5 h-2.5 rounded-full bg-accent"></span>':'')+'</span><span class="text-ink text-sm '+(sel?'font-semibold':'')+'">'+o[0]+'</span>';
-        }
+        b.className='flex items-center gap-3 text-left p-4 rounded-xl border '+(sel?'border-accent bg-white':'border-line bg-white')+' hover:border-accent transition';
+        b.innerHTML='<span class="shrink-0 w-5 h-5 rounded-full border-2 '+(sel?'border-accent':'border-line')+' flex items-center justify-center">'+(sel?'<span class="w-2.5 h-2.5 rounded-full bg-accent"></span>':'')+'</span><span class="text-ink text-sm '+(sel?'font-semibold':'')+'">'+o[0]+'</span>';
         b.onclick=function(){ans[step]=o[0];render();};op.appendChild(b);
       });
       nx.textContent=step===Q.length-1?'Далее →':'Следующий вопрос →';
-    }else{box.classList.add('hidden');ct.classList.remove('hidden');nx.textContent='Получить смету';}
+    }else{box.classList.add('hidden');ct.classList.remove('hidden');nx.textContent='Получить смету в WhatsApp';}
     bk.style.visibility=step===0?'hidden':'visible';
   }
   nx.onclick=function(){
-    if(step<Q.length){if(!ans[step]){op.classList.add('animate-pulse');setTimeout(function(){op.classList.remove('animate-pulse');},400);return;}step++;render();}
-    else{
-      var n=document.getElementById('qname').value.trim(),p=document.getElementById('qphone').value.trim();
-      var lines=Q.map(function(q,i){return '• '+q.t+' '+(ans[i]||'—');}).join('%0A');
-      var msg='Здравствуйте! 👋 Пишу с сайта OKREMONT.%0AЗаявка на расчёт сметы (ремонт двухкомнатной квартиры):%0A%0A'+lines+'%0A%0AИмя: '+encodeURIComponent(n||'—')+'%0AТелефон: '+encodeURIComponent(p||'—')+'%0A%0AЖду смету и консультацию, спасибо!';
+    if(step<Q.length){
+      if(!ans[step]){op.classList.add('animate-pulse');setTimeout(function(){op.classList.remove('animate-pulse');},400);return;}
+      track('quiz_step_'+(step+1)); step++; render();
+    }else{
+      var nameEl=document.getElementById('qname'),phEl=document.getElementById('qphone');
+      var n=nameEl.value.trim(),p=phEl.value.trim(),digits=p.replace(/\D/g,''),ok=true;
+      if(!n){nameEl.style.borderColor='#dc2626';ok=false;}else nameEl.style.borderColor='';
+      if(digits.length<10){phEl.style.borderColor='#dc2626';ok=false;}else phEl.style.borderColor='';
+      if(!ok)return;
+      var m=function(i){return encodeURIComponent(MAP[ans[i]]||ans[i]||'—');};
+      var msg='Здравствуйте! 👋 Заявка с сайта OKREMONT.'
+        +'%0A%0AИмя: '+encodeURIComponent(n)
+        +'%0AПлощадь: '+m(0)+'%0AСостояние: '+m(1)+'%0AГотовность: '+m(2)+'%0AПриоритет: '+m(3)+'%0AПакет: '+m(4)
+        +'%0AТелефон: '+encodeURIComponent(p)
+        +'%0A%0AПрошу подготовить смету.';
+      track('quiz_completed');
+      try{if(typeof gtag==='function')gtag('event','conversion',{'send_to':'AW-18310963961/U4JrCIGaoc4cEPnFrJtE'});}catch(e){}
+      /* CRM (Kommo/amoCRM): раскомментируйте и укажите ваш вебхук —
+         fetch('ВАШ_CRM_WEBHOOK',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n,phone:p,answers:ans})}); */
       window.open('https://wa.me/77778988559?text='+msg,'_blank');
     }
   };
